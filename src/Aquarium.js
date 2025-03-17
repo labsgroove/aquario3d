@@ -13,8 +13,8 @@ const Fish = ({ model, position, velocity, depth }) => {
     // Armazena o instante da última mudança de direção
     const lastChangeRef = useRef(performance.now());
     // Define intervalos mínimos e máximos para a mudança de direção (em milissegundos)
-    const minInterval = 3000;
-    const maxInterval = 6000;
+    const minInterval = 1000;
+    const maxInterval = 5000;
     // Cada peixe recebe seu próprio intervalo aleatório
     const changeIntervalRef = useRef(Math.random() * (maxInterval - minInterval) + minInterval);
 
@@ -50,8 +50,8 @@ const Fish = ({ model, position, velocity, depth }) => {
             const currentPhi = Math.acos(velRef.current[1] / speed);
     
             // Define limites para a variação dos ângulos (ex: 22.5° em radianos)
-            const maxDeltaTheta = Math.PI / 8;
-            const maxDeltaPhi = Math.PI / 32;
+            const maxDeltaTheta = Math.PI / 16;
+            const maxDeltaPhi = Math.PI / 64;
     
             // Gera deltas aleatórios dentro do intervalo [-maxDelta, maxDelta]
             const deltaTheta = (Math.random() * 2 - 1) * maxDeltaTheta;
