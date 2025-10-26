@@ -86,7 +86,7 @@ const Fish = ({ model, position, velocity, depth }) => {
         ref.current.position.set(...newPos);
     
         const targetRotation = Math.atan2(velRef.current[0], velRef.current[2]);
-        rotationRef.current = lerp(rotationRef.current, targetRotation, 0.02);
+        rotationRef.current = lerp(rotationRef.current, targetRotation, 0.03);
         ref.current.rotation.y = rotationRef.current;
     });
     
