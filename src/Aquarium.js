@@ -50,8 +50,8 @@ const Fish = ({ model, position, velocity, depth }) => {
             const currentPhi = Math.acos(velRef.current[1] / speed);
     
             // Define limites para a variação dos ângulos (ex: 22.5° em radianos)
-            const maxDeltaTheta = Math.PI / 8;
-            const maxDeltaPhi = Math.PI / 16;
+            const maxDeltaTheta = Math.PI / 16;
+            const maxDeltaPhi = Math.PI / 32;
     
             // Gera deltas aleatórios dentro do intervalo [-maxDelta, maxDelta]
             const deltaTheta = (Math.random() * 2 - 1) * maxDeltaTheta;
@@ -125,9 +125,9 @@ const Aquarium = ({ depth = 20 }) => {
 
     const fishData = [
         { model: 1, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [-0.011, 0, 0.012] },
-        { model: 2, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [-0.010, 0, 0.010] },
+        { model: 2, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [-0.015, 0, 0.010] },
         { model: 3, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [0.012, 0, -0.011] },
-        { model: 4, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [0.010, 0, -0.011] },
+        { model: 4, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [0.013, 0, -0.011] },
         { model: 5, position: [Math.random() * 5, 0, Math.random() * 5], velocity: [-0.010, 0, 0.012] },
     ];
     
