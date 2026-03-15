@@ -1,70 +1,102 @@
-# Getting Started with Create React App
+# Aquário 3D Interativo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Um simulador de aquário 3D desenvolvido com Three.js, featuring peixes com movimento natural e efeitos de aquário realistas.
 
-## Available Scripts
+## 🐠 Funcionalidades
 
-In the project directory, you can run:
+### Características Principais
+- **Câmera Frontal**: Simula a parede frontal do aquário como se fosse a tela
+- **Peixes Animados**: Sistema de peixes com movimentos naturais baseados em algoritmos de flocking
+- **Fallback Visual**: Esferas coloridas como fallback para modelos 3D complexos
+- **Fundo de Vídeo**: Tentativa de carregar vídeo em loop com fallback para fundo azul
+- **Movimento Fluida**: Sistema de movimentação natural com separação, alinhamento e coesão
 
-### `npm start`
+### Sistema de Movimentação
+- **Flocking Behavior**: Os peixes se movem em cardumes realistas
+- **Evitação de Obstáculos**: Desviam naturalmente das paredes do aquário
+- **Movimento Aleatório**: Comportamento de wander para movimentos orgânicos
+- **Animação de Cauda**: Movimento sincronizado da cauda com a natação
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Elementos do Aquário
+- **Paredes de Vidro**: Efeito transparente nas paredes do aquário
+- **Decoração**: Plantas aquáticas e areia no fundo
+- **Bolhas**: Bolhas de ar subindo periodicamente
+- **Iluminação**: Sistema de luzes múltiplas para ambiente realista
+- **Sombreamento**: Sombras dinâmicas dos peixes
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Controles Interativos
+- **Quantidade de Peixes**: Slider para ajustar de 1 a 50 peixes
+- **Velocidade**: Controle de velocidade de natação (0.1x a 3x)
+- **Adicionar/Remover**: Botões para adicionar ou remover peixes individualmente
+- **Alimentação**: Botão para alimentar os peixes com partículas de comida
+- **Toggle Vídeo**: Alternar entre fundo de vídeo e fundo azul
 
-### `npm test`
+## 🚀 Como Usar
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Abra o arquivo `index.html` em um navegador moderno
+2. Aguarde o carregamento do aquário
+3. Use os controles no canto superior esquerdo para interagir
 
-### `npm run build`
+### Controles
+- **Slider de Peixes**: Ajusta a quantidade de peixes no aquário
+- **Slider de Velocidade**: Controla a velocidade de natação
+- **Botão Alimentar**: Solta partículas de comida que os peixes comem
+- **Botão Toggle Vídeo**: Alterna o fundo entre vídeo e cor azul
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Tecnologias
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Three.js**: Biblioteca principal para renderização 3D
+- **JavaScript ES6+**: Lógica do simulador
+- **HTML5/CSS3**: Estrutura e estilização
+- **WebGL**: Renderização acelerada por hardware
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📁 Estrutura do Projeto
 
-### `npm run eject`
+```
+aquario3d/
+├── index.html          # Página principal
+├── aquarium.js         # Lógica do aquário 3D
+└── README.md          # Documentação
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🎮 Comportamento dos Peixes
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+O sistema implementa um algoritmo de flocking completo com:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Separação**: Mantém distância dos outros peixes
+2. **Alinhamento**: Alinha direção com peixes próximos
+3. **Coesão**: Move-se em direção ao centro do cardume
+4. **Wander**: Movimento exploratório aleatório
+5. **Evitação**: Desvia das paredes do aquário
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🌊 Efeitos Visuais
 
-## Learn More
+- **Transparência**: Paredes de vidro semi-transparentes
+- **Refração**: Efeito de água nas luzes
+- **Partículas**: Sistema de bolhas e comida
+- **Sombras**: Sombras dinâmicas dos peixes
+- **Fog**: Efeito de névoa subaquática
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🔧 Configuração
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+O aquário pode ser facilmente personalizado ajustando:
 
-### Code Splitting
+- Dimensões do aquário (`aquariumBounds`)
+- Cores dos peixes (array `colors`)
+- Intensidade das luzes
+- Comportamento de flocking (pesos das forças)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📱 Compatibilidade
 
-### Analyzing the Bundle Size
+- Navegadores modernos com suporte a WebGL
+- Chrome, Firefox, Safari, Edge
+- Resolução responsiva (adapta ao tamanho da tela)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 🎯 Melhorias Futuras
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Modelos 3D mais detalhados para peixes
+- Mais espécies de peixes com comportamentos diferentes
+- Interação com mouse/touch
+- Sistema de som ambiente
+- Mais opções de decoração
+- Modo tela cheia

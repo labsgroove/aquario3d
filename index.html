@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aquário 3D</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #001122;
+            font-family: Arial, sans-serif;
+        }
+        
+        #canvas-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            z-index: 100;
+        }
+        
+        #controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 50;
+        }
+        
+        .control-group {
+            margin-bottom: 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        input[type="range"] {
+            width: 150px;
+        }
+        
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+<body>
+    <div id="canvas-container">
+        <div id="loading">Carregando aquário...</div>
+        <div id="controls">
+            <div class="control-group">
+                <label>Quantidade de Peixes: <span id="fish-count">15</span></label>
+                <input type="range" id="fish-slider" min="1" max="50" value="15">
+            </div>
+            <div class="control-group">
+                <label>Velocidade: <span id="speed-value">1.0</span></label>
+                <input type="range" id="speed-slider" min="0.1" max="3" step="0.1" value="1">
+            </div>
+            <div class="control-group">
+                <button id="add-fish">Adicionar Peixe</button>
+                <button id="remove-fish">Remover Peixe</button>
+            </div>
+            <div class="control-group">
+                <button id="toggle-video">Alternar Vídeo</button>
+                <button id="feed-fish">Alimentar Peixes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="aquarium.js"></script>
+</body>
+</html>
