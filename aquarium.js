@@ -5,15 +5,24 @@ class Aquarium3D {
         this.renderer = null;
         this.fishes = [];
         this.bubbles = [];
-        this.aquariumBounds = { width: 20, height: 12, depth: 10 };
+        this.aquariumBounds = { width: 0, height: 0, depth: 0 };
         this.speedMultiplier = 1;
         this.videoBackground = null;
         this.useVideo = false;
         this.foodParticles = [];
         
+        this.updateAquariumBounds();
         this.init();
         this.setupEventListeners();
         this.animate();
+    }
+
+    updateAquariumBounds() {
+        const aspect = window.innerWidth / window.innerHeight;
+        const baseHeight = 13; // Aumentado para preencher mais espaço
+        this.aquariumBounds.height = baseHeight;
+        this.aquariumBounds.width = baseHeight * aspect;
+        this.aquariumBounds.depth = Math.min(this.aquariumBounds.width, this.aquariumBounds.height) * 0.8;
     }
 
     init() {
@@ -24,7 +33,10 @@ class Aquarium3D {
         // Configurar câmera (vista frontal do aquário)
         const aspect = window.innerWidth / window.innerHeight;
         this.camera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
-        this.camera.position.set(0, 0, 25);
+        
+        // Ajustar posição da câmera baseada nas dimensões do aquário
+        const cameraDistance = Math.max(this.aquariumBounds.width, this.aquariumBounds.height) * 0.5; // Reduzido para zoom maior
+        this.camera.position.set(0, 0, cameraDistance);
         this.camera.lookAt(0, 0, 0);
 
         // Configurar renderer
@@ -75,6 +87,7 @@ class Aquarium3D {
         const backWall = new THREE.Mesh(backGeometry, glassMaterial);
         backWall.position.z = -this.aquariumBounds.depth / 2;
         backWall.receiveShadow = true;
+        backWall.userData.isAquariumWall = true;
         this.scene.add(backWall);
 
         // Paredes laterais
@@ -83,11 +96,13 @@ class Aquarium3D {
         const leftWall = new THREE.Mesh(sideGeometry, glassMaterial);
         leftWall.rotation.y = Math.PI / 2;
         leftWall.position.x = -this.aquariumBounds.width / 2;
+        leftWall.userData.isAquariumWall = true;
         this.scene.add(leftWall);
 
         const rightWall = new THREE.Mesh(sideGeometry, glassMaterial);
         rightWall.rotation.y = -Math.PI / 2;
         rightWall.position.x = this.aquariumBounds.width / 2;
+        rightWall.userData.isAquariumWall = true;
         this.scene.add(rightWall);
 
         // Chão
@@ -101,6 +116,7 @@ class Aquarium3D {
         floor.rotation.x = -Math.PI / 2;
         floor.position.y = -this.aquariumBounds.height / 2;
         floor.receiveShadow = true;
+        floor.userData.isAquariumWall = true;
         this.scene.add(floor);
 
         // Adicionar areia no chão
@@ -120,15 +136,17 @@ class Aquarium3D {
         const sand = new THREE.Mesh(sandGeometry, sandMaterial);
         sand.rotation.x = -Math.PI / 2;
         sand.position.y = -this.aquariumBounds.height / 2 + 0.1;
+        sand.userData.isAquariumWall = true;
         this.scene.add(sand);
     }
 
     createPlants() {
+        // Calcular posições relativas às dimensões do aquário
         const plantPositions = [
-            { x: -6, z: -3 },
-            { x: 6, z: -2 },
-            { x: -4, z: 3 },
-            { x: 4, z: 2 }
+            { x: -this.aquariumBounds.width * 0.3, z: -this.aquariumBounds.depth * 0.3 },
+            { x: this.aquariumBounds.width * 0.3, z: -this.aquariumBounds.depth * 0.2 },
+            { x: -this.aquariumBounds.width * 0.2, z: this.aquariumBounds.depth * 0.3 },
+            { x: this.aquariumBounds.width * 0.2, z: this.aquariumBounds.depth * 0.2 }
         ];
 
         plantPositions.forEach(pos => {
@@ -138,7 +156,8 @@ class Aquarium3D {
             const stemGeometry = new THREE.CylinderGeometry(0.1, 0.15, 3);
             const stemMaterial = new THREE.MeshLambertMaterial({ color: 0x228B22 });
             const stem = new THREE.Mesh(stemGeometry, stemMaterial);
-            stem.position.y = -this.aquariumBounds.height / 2 + 1.5;
+            stem.position.y = -this.aquariumBounds.height / 2 + this.aquariumBounds.height * 0.125;
+            stem.userData.isAquariumWall = true;
             plantGroup.add(stem);
 
             // Folhas
@@ -149,9 +168,10 @@ class Aquarium3D {
                     side: THREE.DoubleSide 
                 });
                 const leaf = new THREE.Mesh(leafGeometry, leafMaterial);
-                leaf.position.y = -this.aquariumBounds.height / 2 + i * 0.6;
+                leaf.position.y = -this.aquariumBounds.height / 2 + i * this.aquariumBounds.height * 0.05;
                 leaf.rotation.z = (Math.random() - 0.5) * 0.5;
                 leaf.position.x = (Math.random() - 0.5) * 0.5;
+                leaf.userData.isAquariumWall = true;
                 plantGroup.add(leaf);
             }
 
@@ -654,7 +674,31 @@ class Aquarium3D {
             this.camera.aspect = aspect;
             this.camera.updateProjectionMatrix();
             this.renderer.setSize(window.innerWidth, window.innerHeight);
+            
+            // Atualizar dimensões do aquário
+            this.updateAquariumBounds();
+            
+            // Ajustar posição da câmera
+            const cameraDistance = Math.max(this.aquariumBounds.width, this.aquariumBounds.height) * 0.8; // Reduzido para zoom maior
+            this.camera.position.set(0, 0, cameraDistance);
+            this.camera.lookAt(0, 0, 0);
+            
+            this.rebuildAquarium();
         });
+    }
+
+    rebuildAquarium() {
+        // Remover paredes antigas
+        const oldWalls = [];
+        this.scene.traverse((child) => {
+            if (child.userData.isAquariumWall) {
+                oldWalls.push(child);
+            }
+        });
+        oldWalls.forEach(wall => this.scene.remove(wall));
+        
+        // Recriar aquário com novas dimensões
+        this.createAquarium();
     }
 
     animate() {
